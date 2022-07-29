@@ -1,0 +1,15 @@
+http://icy-glitter-5928.fly.dev {
+	# /api requests get proxied to the backend server
+	handle /api/* {
+		reverse_proxy localhost:3300
+	}
+
+	handle {
+		root * /usr/share/caddy
+		# requests with Accept-Encoding get automatically gzipped
+		encode gzip
+		# try to serve the file, if it doesn't exist, then serve index.html
+		try_files {path} /index.html
+		file_server
+	}
+}
